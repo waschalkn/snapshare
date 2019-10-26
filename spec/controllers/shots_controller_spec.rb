@@ -21,7 +21,7 @@ RSpec.describe ShotsController, type: :controller do
       expect(response).to redirect_to root_path
 
       shot = Shot.last
-      expect(response).to eq('Hello!')
+      expect(shot.message).to eq('Hello!')
     end
   end
 end
