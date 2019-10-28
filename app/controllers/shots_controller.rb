@@ -1,4 +1,6 @@
 class ShotsController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create]
+  
   def index
 
   end
@@ -8,7 +10,7 @@ class ShotsController < ApplicationController
   end
 
   def create
-    @shot = Shot.create(shot_params)
+    @shot = current_user.shots.create(shot_params)
     if @shot.valid?
       redirect_to root_path
     else
