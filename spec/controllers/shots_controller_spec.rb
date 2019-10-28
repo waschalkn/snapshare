@@ -15,11 +15,7 @@ RSpec.describe ShotsController, type: :controller do
     end
 
     it "should successfully show the new form" do
-      user = User.create(
-        email:                 'fakeuser@gmail.com',
-        password:              'secretPassword',
-        password_confirmation: 'secretPassword'
-      )
+      user = FactoryBot.create(:user)
       sign_in user
 
       get :new
@@ -35,11 +31,7 @@ RSpec.describe ShotsController, type: :controller do
     end
     
     it "should successfully create a new shot in our database" do
-      user = User.create(
-        email:                 'fakeuser@gmail.com',
-        password:              'secretPassword',
-        password_confirmation: 'secretPassword'
-      )
+      user = FactoryBot.create(:user)
       sign_in user
 
       post :create, params: { shot: { message: 'Hello!' } }
@@ -51,11 +43,7 @@ RSpec.describe ShotsController, type: :controller do
     end
 
     it "should properly deal with validation errors" do
-      user = User.create(
-        email:                 'fakeuser@gmail.com',
-        password:              'secretPassword',
-        password_confirmation: 'secretPassword'
-      )
+      user = FactoryBot.create(:user)
       sign_in user
 
       post :create, params: { shot: { message: '' } }
