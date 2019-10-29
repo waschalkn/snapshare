@@ -41,6 +41,13 @@ class ShotsController < ApplicationController
     end
   end
 
+  def destroy
+    @shot = Shot.find_by_id(params[:id])
+    return render_not_found if @shot.blank?
+    @shot.destroy
+    redirect_to root_path
+  end
+
   private
 
   def shot_params

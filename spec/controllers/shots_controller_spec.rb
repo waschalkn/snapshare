@@ -2,6 +2,21 @@ require 'rails_helper'
 
 RSpec.describe ShotsController, type: :controller do
 
+  describe "shots#destroy action" do
+    it "should allow user to destroy a shot" do
+      shot = FactoryBot.create(:shot)
+      delete :destroy, params: { id: shot.id }
+      expect(response).to redirect_to root_path
+      shot = Shot.find_by_id(shot.id)
+      expect(shot).to eq nil
+    end
+
+    it "should return a 404 message if shot cannot be found with specified id" do
+      delete :destroy, params: { id: 'SPACEDUCK' }
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   describe "shots#update action" do
     it "should allow users to successfully update shots" do
       shot = FactoryBot.create(:shot, message: "Initial Value")
