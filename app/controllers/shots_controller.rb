@@ -1,5 +1,5 @@
 class ShotsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   
   def index
 
@@ -26,16 +26,18 @@ class ShotsController < ApplicationController
   def edit
     @shot = Shot.find_by_id(params[:id])
     return render_not_found if @shot.blank?
+    return render_not_found(:forbidden) if @shot.user != current_user
   end
 
   def update
     @shot = Shot.find_by_id(params[:id])
     return render_not_found if @shot.blank?
+    return render_not_found(:forbidden) if @shot.user != current_user
 
     @shot.update_attributes(shot_params)
 
     if @shot.valid?
-    redirect_to root_path
+      redirect_to root_path
     else
       return render :edit, status: :unprocessable_entity
     end
@@ -44,6 +46,8 @@ class ShotsController < ApplicationController
   def destroy
     @shot = Shot.find_by_id(params[:id])
     return render_not_found if @shot.blank?
+    return render_not_found(:forbidden) if @shot.user != current_user
+
     @shot.destroy
     redirect_to root_path
   end
@@ -54,7 +58,7 @@ class ShotsController < ApplicationController
     params.require(:shot).permit(:message)
   end
 
-  def render_not_found
-    render plain: 'Not Found :(', status: :not_found
+  def render_not_found(status=:not_found)
+    render plain: "#{status.to_s.titleize} :(", status: status
   end
 end
