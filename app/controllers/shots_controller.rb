@@ -5,6 +5,13 @@ class ShotsController < ApplicationController
 
   end
 
+  def show
+    @shot = Shot.find_by_id(params[:id])
+    if @shot.blank?
+      render plain: 'Not Found :(', status: :not_found
+    end
+  end
+
   def new
     @shot = Shot.new
   end

@@ -1,6 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe ShotsController, type: :controller do
+
+  describe "shots#show action" do
+    it "should successfully show the page if the shot is found" do
+      shot = FactoryBot.create(:shot)
+      get :show, params: { id: shot.id }
+      expect(response).to have_http_status(:success)
+    end
+
+    it "should return a 404 error if the shot is not found" do
+      get :show, params: { id: "TACOS" }
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
+
+
   describe "shots#index action" do
     it "should successfully show the page" do
       get :index
