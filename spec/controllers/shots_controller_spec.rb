@@ -2,6 +2,42 @@ require 'rails_helper'
 
 RSpec.describe ShotsController, type: :controller do
 
+  describe "shots#update action" do
+    it "should allow users to successfully update shots" do
+      shot = FactoryBot.create(:shot, message: "Initial Value")
+      patch :update, params: { id: shot.id, shot: { message: 'Changed' } }
+      expect(response).to redirect_to root_path
+      shot.reload
+      expect(shot.message).to eq "Changed"
+    end
+
+    it "should have http 404 error if the shot cannot be found" do
+      patch :update, params: { id: "YOLOSWAG", shot: { message: 'Changed' } }
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it "should render the edit form with an http status of unprocessable_entity" do
+      shot = FactoryBot.create(:shot, message: "Initial Value")
+      patch :update, params: { id: shot.id, shot: { message: '' } }
+      expect(response).to have_http_status(:unprocessable_entity)
+      shot.reload
+      expect(shot.message).to eq "Initial Value"
+    end
+  end
+
+  describe "shots#edit action" do
+    it "should successfully show the edit form if the shot is found" do
+      shot = FactoryBot.create(:shot)
+      get :edit, params: { id: shot.id }
+      expect(response).to have_http_status(:success)
+    end
+
+    it "should return a 404 error message if the shot is not found" do
+      get :edit, params: { id: "TACOS" }
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   describe "shots#show action" do
     it "should successfully show the page if the shot is found" do
       shot = FactoryBot.create(:shot)
@@ -10,7 +46,7 @@ RSpec.describe ShotsController, type: :controller do
     end
 
     it "should return a 404 error if the shot is not found" do
-      get :show, params: { id: "TACOS" }
+      get :show, params: { id: "SWAG" }
       expect(response).to have_http_status(:not_found)
     end
   end
