@@ -57,8 +57,5 @@ class ShotsController < ApplicationController
   def shot_params
     params.require(:shot).permit(:picture, :message)
   end
-
-  def render_not_found(status=:not_found)
-    render plain: "#{status.to_s.titleize} :(", status: status
-  end
+  
 end
