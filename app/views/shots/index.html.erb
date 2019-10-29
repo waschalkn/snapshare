@@ -1,1 +1,8 @@
-<h1>SnapShare!</h1>
+<h1>Snap Shots!</h1>
+
+<% @shots.each do |shot| %>
+  <div>
+    <%= image_tag shot.picture.url %>
+    <%= shot.message %>
+  </div>
+<% end %>

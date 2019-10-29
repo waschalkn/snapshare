@@ -2,7 +2,7 @@ class ShotsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   
   def index
-
+    @shots = Shot.all
   end
 
   def show
@@ -55,7 +55,7 @@ class ShotsController < ApplicationController
   private
 
   def shot_params
-    params.require(:shot).permit(:message)
+    params.require(:shot).permit(:picture, :message)
   end
 
   def render_not_found(status=:not_found)
