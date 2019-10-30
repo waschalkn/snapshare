@@ -1,8 +1,40 @@
-<h1>Snap Shots!</h1>
+<div class="col-10 offset-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
+  <% @shots.each do |shot| %>
+  <div class="card">
+    <div class="handle"><%= shot.user.email %></div>
+    <%= image_tag shot.picture.url, class: 'img-fluid' %>
+    <p>
+      <%= shot.message %>
+    </p>
 
-<% @shots.each do |shot| %>
-  <div>
-    <%= image_tag shot.picture.url %>
-    <%= shot.message %>
+    <div class="shot-actions float-right">
+      <% if current_user && current_user == shot.user %>
+        <%= link_to 'Edit', edit_shot_path(shot) %>
+        <%= link_to 'Destroy', shot_path(shot), method: :delete, data: {confirm: 'Are you sure?'} %>
+      <% end %>
+    </div>
+
+    <br class="clear-fix" />
+
+    <div class="comments">
+      <h3>Comments</h3>
+
+      <% shot.comments.each do |comment| %>
+        <div class="comment">
+          <span class="comment_handle">
+            <%= comment.user.email %>
+          </span>
+
+          <%= comment.message %>
+        </div>
+      <% end %>
+
+      <h4>Add a comment</h4>
+      <%= simple_form_for Comment.new, url: shot_comments_path(shot) do |f| %>
+      <%= f.input :message %>
+      <%= f.submit 'Add Comment', class: 'my-btn' %>
+      <% end %>
+    </div>
   </div>
-<% end %>
+  <% end %>
+</div>
