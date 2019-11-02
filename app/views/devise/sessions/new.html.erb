@@ -1,3 +1,10 @@
+<style>
+  #test {
+    margin-left: 20px;
+    margin-top: 5px;
+  }
+</style>
+
 <div class="col-10 offset-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3 card form">
 
 <h2>Log in</h2>
@@ -11,7 +18,9 @@
     <%= f.input :password,
                 required: false,
                 input_html: { autocomplete: "current-password" } %>
+    <div id="test">
     <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+    </div>
   </div>
 
   <div class="form-actions">
