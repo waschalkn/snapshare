@@ -23,6 +23,6 @@ After you have signed up, you will be redirected to the home page where you will
 
 Git was used for versioning
 
-#Authors
+# Authors
 
 * Nacoda Waschalk
